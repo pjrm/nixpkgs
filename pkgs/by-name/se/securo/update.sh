@@ -1,12 +1,12 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p nix-prefetch-github jq prefetch-npm-deps
+#!nix-shell -i bash -p curl nix-prefetch-github jq prefetch-npm-deps
 
 set -eu -o pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname "$0")" >/dev/null 2>&1 && pwd)"
 SOURCES_FILE="$SCRIPT_DIR/sources.json"
 
-LATEST_TAG=$(curl -sS "https://api.github.com/repos/securo-finance/securo/releases/latest" | jq -r '.tag_name')
+LATEST_TAG=$(curl -sSfL "https://api.github.com/repos/securo-finance/securo/releases/latest" | jq -r '.tag_name')
 
 VERSION="${LATEST_TAG#v}"
 echo "Latest version: $VERSION"
